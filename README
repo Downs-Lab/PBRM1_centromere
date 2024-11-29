@@ -1,0 +1,46 @@
+
+Custom pipeline for analysing mapping data (e.g. CUT&RUN.salt or ChIP-seq) - extracting uniquely mapping reads and enriched k-mer analysis 
+(based on pipeline used in Smith, Owen K et al. “Identification and characterization of centromeric sequences in Xenopus laevis.” Genome research vol. 31,6 (2021): 958-967. doi:10.1101/gr.267781.120)
+
+Please cite the following if you find this analysis useful:
+
+PBRM1 directs PBAF to pericentromeres and protects centromere integrity
+Karen A. Lane, Alison Harrod, Lillian Wu, Theodoros I. Roumeliotis, Hugang Feng, Shane Foo, Katheryn A. G. Begg, Federica Schiavoni, Frank T. Zenke, Alan A. Melcher, Jyoti S. Choudhary, Jessica A. Downs
+bioRxiv 2024.06.29.601326; doi: https://doi.org/10.1101/2024.06.29.601326
+
+1. System requirements 
+
+1.1 Software dependencies and operating systems 
+
+Software dependencies: 
+
+The analysis pipeline was performed using the CentOS8 linux distribution platform (based on Redhat Enterprise Linux Operating System)
+The analysis pipeline can be run on a computer with the linux operating system
+
+
+1.2 Required non-standard hardware 
+
+The analysis pipeline was performed on a high performance computer with 1248x Intel Xeon Platinum 8260(Cascade Lake) @ 2.40GHz cores with minimum 8GB/core
+The analysis pipeline requires a minimum of 8 cores with minimum 16Gb/core 
+
+
+2. Installation guide
+
+For instructions on installing and loading required packages, see file 01_Prepare_directories_and_files.sh
+
+
+3. Instructions for use 
+
+For setup instructions refer to the file 01_Prepare_directories_and_files.sh
+
+Use of conda environments created:
+unique_reads is used for 02_trim_fastqc.sh to 16_cen_peaks.sh
+identify_kmers is used for 18_Filter_out_spike_in.sh to 23_mv_control_kmers.sh
+enriched_kmers is used for 24_enriched_kmers_9IgG_LH.sh, 25_overlap_2reps_enriched_kmers.sh, 29_kmer_specific_groups.sh
+kmer_analysis is used for 26_enrich_kmer_fa.sh to 28_cen_pivot.sh
+ 
+For unique read mapping follow 02_trim_fastqc.sh to 17_specific_groups.sh in numerical order 
+(within 'Unique_read_mapping' folder, including 7b_mark_remove_dups.sh)
+For kmer analysis: 
+Output files generated from steps up to 12_index_stats.sh are required
+Follow 18_Filter_out_spike_in.sh to 29_kmer_specific_groups.sh (within 'k-mer_analysis_pipeline' folder)
