@@ -1,30 +1,24 @@
 
-Custom pipeline for analysing mapping data (e.g. CUT&RUN (.salt) or ChIP-seq) at centromeric and pericentromeric sequences - extracting uniquely mapping reads and enriched k-mer analysis 
-(based on pipeline used in Smith et al. 2021, Genome research. doi:10.1101/gr.267781.120)
+# Custom pipeline for analysing mapping data (e.g. CUT&RUN (.salt) or ChIP-seq) at centromeric and pericentromeric sequences - extracting uniquely mapping reads and enriched k-mer analysis 
+### (based on pipeline used in Smith et al. 2021, Genome research. doi:10.1101/gr.267781.120)
 
-Please cite the following if you find this analysis pipeline useful:
+### 1. System requirements 
 
-PBRM1 directs PBAF to pericentromeres and protects centromere integrity
-Karen A. Lane, Alison Harrod, Lillian Wu, Theodoros I. Roumeliotis, Hugang Feng, Shane Foo, Katheryn A. G. Begg, Federica Schiavoni, Frank T. Zenke, Alan A. Melcher, Jyoti S. Choudhary, Jessica A. Downs
-bioRxiv 2024.06.29.601326; doi: https://doi.org/10.1101/2024.06.29.601326
+### .1 Software dependencies and operating systems 
 
-1. System requirements 
-
-1.1 Software dependencies and operating systems 
-
-Software dependencies: 
+### Software dependencies: 
 
 The analysis pipeline was performed using the CentOS8 linux distribution platform (based on Redhat Enterprise Linux Operating System)
 The analysis pipeline can be run on a computer with the linux operating system
 
 
-1.2 Required non-standard hardware 
+### 1.2 Required non-standard hardware 
 
 The analysis pipeline was performed on a high performance computer with 1248x Intel Xeon Platinum 8260(Cascade Lake) @ 2.40GHz cores with minimum 8GB/core
 The analysis pipeline requires a minimum of 8 cores with minimum 16Gb/core 
 
 
-2. Installation guide
+### 2. Installation guide
 
 Prepare necessary conda/mamba environments for running downstream script
 
@@ -38,10 +32,10 @@ with following package versions: Bbmap=38.87 bedtools=2.29.2 SAMtools=1.11 bowti
 with following package versions: r-base= 4.2.3  r-dplyr=1.1.1 r-tibble= 3.2.0 python=3.11.0 r-r.utils=2.12.3 r-ggplot2=3.5.1
 
 #mamba create --name kmer_analysis
-# with following package versions: bowtie2=2.4.2 SAMtools=1.11 bedtools=2.29.2 datamash=1.1.0 deeptools=3.5.1
+with following package versions: bowtie2=2.4.2 SAMtools=1.11 bedtools=2.29.2 datamash=1.1.0 deeptools=3.5.1
 
 
-3. Instructions for use 
+### 3. Instructions for use 
 
 For setup instructions refer to the file 01a_Prepare_directories.sh first, then download the files below and run 01b_Prepare_files.sh
 
@@ -70,3 +64,11 @@ follow 02_trim_fastqc.sh to 17_specific_groups.sh in numerical order
 For kmer analysis: 
 Output files generated from steps up to 12_index_stats.sh are required
 Follow 18_Filter_out_spike_in.sh to 29_kmer_specific_groups.sh (within 'k-mer_analysis_pipeline' folder)
+
+## Citation
+
+Please cite the following if you find this analysis pipeline useful:
+
+PBRM1 directs PBAF to pericentromeres and protects centromere integrity
+Karen A. Lane, Alison Harrod, Lillian Wu, Theodoros I. Roumeliotis, Hugang Feng, Shane Foo, Katheryn A. G. Begg, Federica Schiavoni, Frank T. Zenke, Alan A. Melcher, Jyoti S. Choudhary, Jessica A. Downs
+bioRxiv 2024.06.29.601326; doi: https://doi.org/10.1101/2024.06.29.601326
