@@ -1,8 +1,8 @@
 
 Custom pipeline for analysing mapping data (e.g. CUT&RUN.salt or ChIP-seq) at centromeric and pericentromeric sequences - extracting uniquely mapping reads and enriched k-mer analysis 
-(based on pipeline used in Smith, Owen K et al. “Identification and characterization of centromeric sequences in Xenopus laevis.” Genome research vol. 31,6 (2021): 958-967. doi:10.1101/gr.267781.120)
+(based on pipeline used in Smith et al. 2021, Genome research. doi:10.1101/gr.267781.120)
 
-Please cite the following if you find this analysis useful:
+Please cite the following if you find this analysis pipeline useful:
 
 PBRM1 directs PBAF to pericentromeres and protects centromere integrity
 Karen A. Lane, Alison Harrod, Lillian Wu, Theodoros I. Roumeliotis, Hugang Feng, Shane Foo, Katheryn A. G. Begg, Federica Schiavoni, Frank T. Zenke, Alan A. Melcher, Jyoti S. Choudhary, Jessica A. Downs
