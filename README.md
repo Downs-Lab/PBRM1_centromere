@@ -9,7 +9,7 @@ Custom pipeline for analysing mapping data (e.g. CUT&RUN (.salt) or ChIP-seq) at
 
 ### 1. System requirements 
 
-### .1 Software dependencies and operating systems 
+### 1.1 Software dependencies and operating systems 
 
 ### Software dependencies: 
 
