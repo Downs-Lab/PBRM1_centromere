@@ -1,4 +1,9 @@
 
+# PBRM1 directs PBAF to pericentromeres and protects centromere integrity
+
+### Karen A. Lane, Alison Harrod, Lillian Wu, Theodoros I. Roumeliotis, Hugang Feng, Shane Foo, Katheryn A. G. Begg, Federica Schiavoni, Frank T. Zenke, Alan A. Melcher, Jyoti S. Choudhary, Jessica A. Downs
+### bioRxiv 2024.06.29.601326; doi: https://doi.org/10.1101/2024.06.29.601326
+
 Custom pipeline for analysing mapping data (e.g. CUT&RUN (.salt) or ChIP-seq) at centromeric and pericentromeric sequences - extracting uniquely mapping reads and enriched k-mer analysis 
 (based on pipeline used in Smith et al. 2021, Genome research. doi:10.1101/gr.267781.120)
 
