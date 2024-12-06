@@ -13,6 +13,7 @@
 
 # requires approx 48G (e.g. 6 threads and 8G) and <24 hours running time
 
+cd ..
 
 for files in filtered_fastq/*_sc_filter_1.fq.gz;
 do
