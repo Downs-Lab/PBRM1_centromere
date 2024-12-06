@@ -11,6 +11,7 @@
 
 # requires approx 16G (unable to use multithreaded job with datamash) and <36 hour running time
 
+cd ..
 
 INPUT_FILES=(kmer_centromere/enriched_kmers/overlap_2/bam/*.bam)
 
