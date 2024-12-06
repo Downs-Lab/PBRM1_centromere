@@ -13,6 +13,8 @@
 
 ## Requires approx 1GB memory and 2 hours running time
 
+cd ..
+
 INPUT_FILES=(bam/*_L_r4.t2t.NM4.sorted.final.bam)
 
 base=$(basename -s _L_r4.t2t.NM4.sorted.final.bam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
