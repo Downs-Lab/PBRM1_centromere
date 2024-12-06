@@ -11,6 +11,8 @@
 
 # requires approx 48G (e.g. 6 threads and 8G) and 2 hours running time
 
+cd ..
+
 INPUT_FILES=(bam/merged_bam/*.t2t.NM4.sorted.final.bam)
 
 base=$(basename -s .t2t.NM4.sorted.final.bam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
