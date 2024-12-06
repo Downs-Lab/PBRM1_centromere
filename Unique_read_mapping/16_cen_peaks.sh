@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --array=0
+#SBATCH --array=0-7
 #SBATCH --cpus-per-task=1
 #SBATCH --time=1:00:00
 #SBATCH --partition=compute
