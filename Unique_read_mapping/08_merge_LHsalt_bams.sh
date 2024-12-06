@@ -12,6 +12,8 @@
 ## If performing CUT&RUN with salt fractionation, the low and high salt libraries for each sample can be merged for downstream analysis ##
 ## Requires approx 1GB memory and 2 hours running time
 
+cd ..
+
 INPUT_FILES=(bam/*_L_r1.t2t.NM4.sorted.final.bam)
 
 base=$(basename -s _L_r1.t2t.NM4.sorted.final.bam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
