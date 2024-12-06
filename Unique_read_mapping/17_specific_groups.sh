@@ -4,11 +4,12 @@
 #SBATCH --partition=compute
 #SBATCH --mem-per-cpu=8000
 
-# currently set for data from publication
 
 # requires <8G and <1 hour running time
 
-# not possible with demo data - specific script used with full data in publication - accesible from GEO
+# specific script used with full data in publication - accessible from GEO
+
+cd ..
 
 bedtools intersect -a unique_reads/MACS2_peaks/overlap_2/CEN_peaks/WT_PBRM1_vs_IgG_overlap_cen_peaks_merge.bed \
  -b unique_reads/MACS2_peaks/overlap_2/CEN_peaks/WT_SMARCA4_vs_IgG_overlap_cen_peaks_merge.bed -u \
