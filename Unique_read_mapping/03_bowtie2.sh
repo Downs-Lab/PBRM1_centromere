@@ -16,6 +16,8 @@
 
 # When performing CUT&RUN on human cells with yeast spike-in DNA, reads are first aligned to a combined human-yeast reference genome ##
 
+cd ..
+
 INPUT_FILES=(trimmed_reads/*_1_val_1.fq.gz)
 base=$(basename -s _1_val_1.fq.gz ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
 
