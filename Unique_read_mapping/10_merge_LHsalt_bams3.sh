@@ -14,6 +14,8 @@
 
 # Only run using data analysed from publication - available on GEO
 
+cd ..
+
 samtools merge bam/merged_bam/WT_IgG_LH_r7.t2t.NM4.sorted.final.bam \
  bam/WT_IgG_L_r7.t2t.NM4.sorted.final.bam bam/WT_IgG_H_r7.t2t.NM4.sorted.final.bam
 
