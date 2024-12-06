@@ -8,6 +8,7 @@
 
 # This script is just for reproducing the specific groups of k-mers from the publication (requires all data from GEO)
 
+cd ..
 
 #export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
