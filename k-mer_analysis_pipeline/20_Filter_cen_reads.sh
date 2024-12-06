@@ -11,6 +11,8 @@
 
 # filter fq.gz files for reads that originally mapped to centromere and pericentromeric regions
 
+cd ..
+
 INPUT_FILES=(bam/*.t2t.NM4.sorted.final.bam)
 
 base=$(basename -s .t2t.NM4.sorted.final.bam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
