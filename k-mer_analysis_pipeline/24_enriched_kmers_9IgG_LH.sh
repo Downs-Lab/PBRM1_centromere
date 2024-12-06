@@ -10,7 +10,9 @@
 #PBRM1KO_H3K9me2, PBRM1KO_H3K9me3)
 
 
-# requires approx 384G (e.g. 48 threads and 8G) and 12 hours running time 
+# requires approx 384G (e.g. 48 threads and 8G) and 12 hours running time
+
+cd ..
 
 INPUT_FILES=(kmer_centromere/kmer_dbs/51/*_H_r1_normkcounts.txt)
 
