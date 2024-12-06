@@ -10,6 +10,7 @@
 
 # Requires approx 1GB memory and 1 hour running time
 
+cd ..
 
 rm -f bam/merged_bam/WT_IgG_LH_r3.t2t.NM4.sorted.final.bam
 
