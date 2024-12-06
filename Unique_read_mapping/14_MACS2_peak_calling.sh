@@ -8,6 +8,7 @@
 
 ## requires approx 8 hours and 8GB
 
+cd ..
 
 # WT_SMARCA4 peaks
 
