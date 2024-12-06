@@ -7,15 +7,14 @@
 ## To mark duplicates in a bam file ##
 ## Usually not needed for CUT&RUN libraries, unless duplication rate is high (>50%), then removing duplicates could improve data quality and downstream analysis ##
 ## Percentage duplication can be found in the metrics .txt file for making a decision ##
-# remove duplicate script is just shown for specific samples which had duplicates removed from in this publication
+# example remove duplicate script is just shown for specific samples which had duplicates removed from in this publication
 
 # Requires approx 128GB memory and 30 minutes running time (24 threads)
 
+cd ..
 
 PICARD='/path/to/file/picard.jar'
 
-
-# in the demo files, these might not have >50% duplicates, but removed for consistency with analysis used in publication
 
 java -Xmx128g -Djava.io.tmpdir=/tmp -XX:ParallelGCThreads=24 -XX:-UseCompressedClassPointers \
 -XX:ConcGCThreads=24 -jar $PICARD MarkDuplicates \
