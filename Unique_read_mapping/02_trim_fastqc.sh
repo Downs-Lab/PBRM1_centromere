@@ -11,6 +11,8 @@
 
 # Requires approx 4G memory and <6 hours running time
 
+cd ..
+
 INPUT_FILES=(fastq/*_1.fq.gz)
 
 base=$(basename -s _1.fq.gz ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
