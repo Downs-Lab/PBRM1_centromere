@@ -10,6 +10,8 @@
 
 # requires approx 64G (e.g. 8 threads and 8G) and <12 hours running time
 
+cd ..
+
 INPUT_FILES=(kmer_centromere/enriched_kmers/*_1_vs_Control_fc2.txt)
 
 base=$(basename -s _1_vs_Control_fc2.txt ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
