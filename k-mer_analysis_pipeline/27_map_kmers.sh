@@ -14,6 +14,8 @@
 
 # requires approx 48G (e.g. 6 threads and 8G) and <4 hour running time
 
+cd ..
+
 INDEX=genomes/human_genome_t2tv1.1_chr_indexed
 
 INPUT_FILES=(kmer_centromere/enriched_kmers/overlap_2/*.fa)
