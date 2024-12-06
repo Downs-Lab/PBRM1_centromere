@@ -11,6 +11,8 @@
 
 # requires <8G and <1 hours running time
 
+cd ..
+
 INPUT_FILES=(kmer_centromere/enriched_kmers/overlap_2/*_overlap_2.txt)
 
 base=$(basename -s _overlap_2.txt ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
