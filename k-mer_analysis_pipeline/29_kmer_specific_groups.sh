@@ -10,6 +10,6 @@
 
 cd ..
 
-#export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 srun Rscript 29_kmer_specific_groups.R
