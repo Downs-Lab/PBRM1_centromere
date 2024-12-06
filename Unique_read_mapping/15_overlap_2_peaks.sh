@@ -11,6 +11,8 @@
 
 # requires 8G and <1 hour running time
 
+cd ..
+
 INPUT_FILES=(unique_reads/MACS2_peaks/*_vs_IgG_r1_peaks.broadPeak)
 
 base=$(basename -s _vs_IgG_r1_peaks.broadPeak ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
