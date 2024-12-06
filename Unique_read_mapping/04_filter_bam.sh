@@ -13,6 +13,8 @@
 
 ## Requires approx 4Gb of memory and 40 minutes running time
 
+cd ..
+
 INPUT_FILES=(sam/*_t2tsc.sam)
 base=$(basename -s _t2tsc.sam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
 
