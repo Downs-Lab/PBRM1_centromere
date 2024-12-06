@@ -11,6 +11,8 @@
 
 # requires <8G and <1 hour running time
 
+cd ..
+
 INPUT_FILES=(unique_reads/MACS2_peaks/overlap_2/*_overlap_peaks_merge.bed)
 
 base=$(basename -s _overlap_peaks_merge.bed ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
