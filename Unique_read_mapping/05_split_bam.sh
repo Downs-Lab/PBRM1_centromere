@@ -14,6 +14,8 @@
 ## This splits the bam file into separate files for each chromosome ##
 # Requires approx 10MB memory and 15 minutes running time
 
+cd ..
+
 INPUT_FILES=(bam/*.t2tsc.NM4.sorted.final.bam)
 base=$(basename -s .t2tsc.NM4.sorted.final.bam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
 
