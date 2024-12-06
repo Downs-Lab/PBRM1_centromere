@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --array=0-281
+#SBATCH --array=0-81
 #SBATCH --cpus-per-task=6
 #SBATCH --time=12:00:00
 #SBATCH --partition=compute
@@ -12,6 +12,8 @@
 # then filter fastq files to exclude yeast-mapped reads
 
 # requires approx 48G (e.g. 6 threads and 8G) and 12 hours running time
+
+cd ..
 
 INPUT_FILES=(bam/sc_reads/*.sc.NM4.sorted.final.readsID.txt)
 
