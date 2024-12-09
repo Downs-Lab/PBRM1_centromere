@@ -9,6 +9,8 @@
 # e.g. #SBATCH --array=0-40 for 41 different samples in array - 3x PBRM1, 3x SMARCA4, 3x CENPB, 3x H3K9me2, 3x H3K9me3 and 8x IgG in parental RPE1,
 # and 3x SMARCA4, 3x H3K9me2, 3x H3K9me3 and 6x IgG in PBRM1KO RPE1, and 3x SMARCA4 in SMARCA4KO RPE1
 
+# requires deeptools=3.5.1 - can use conda environment kmer_analysis (see README)
+
 cd ..
 
 INPUT_FILES=(unique_reads/*.bam)
