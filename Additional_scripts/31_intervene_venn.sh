@@ -4,6 +4,8 @@
 #SBATCH --partition=compute
 #SBATCH --mem-per-cpu=8000
 
+# requires the following conda package intervene=0.6.5
+
 cd ..
 
 # set base and base2 to sample names you want to compare
