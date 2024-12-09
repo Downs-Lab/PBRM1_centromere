@@ -7,6 +7,8 @@
 ## Example script in R file is from publication data for parental and PBRM1-KO RPE1 H3K9me2 peak intersection
 ## This was the script used to create the final venn diagrams using the numbers generated with the intervene script
 
+# requires the enriched_kmers conda environment (see README)
+
 cd ..
 
 mkdir -p unique_reads/custom_venn
