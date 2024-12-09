@@ -13,5 +13,5 @@ mkdir -p unique_reads/custom_venn
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
-srun Rscript 32_custom_venn.R
+srun Rscript Additional_scripts/32_custom_venn.R
 
