@@ -39,6 +39,7 @@ with following package versions: r-base= 4.2.3  r-dplyr=1.1.1 r-tibble= 3.2.0 py
 #mamba create --name kmer_analysis
 with following package versions: bowtie2=2.4.2 SAMtools=1.11 bedtools=2.29.2 datamash=1.1.0 deeptools=3.5.1
 
+Additional_scripts folder has some specific installation requirements detailed in .sh files
 
 ### 3. Instructions for use 
 
@@ -55,6 +56,11 @@ Download or prepare data files:
 If using data from the publication, then download fq.gz files from GEO accession GSE235294 and add to the 'fastq' folder, with same naming system as metadata
 e.g. WT_SMARCA4_L_r1_1.fq.gz
 or add your own fq.gz files ready for analysis to this folder
+
+Download folder with script files:
+Unique_read_mapping 
+k-mer_analysis_pipeline
+(Additional_scripts) - this contains extra details of scripts used to create figures in the publication
 
 Use of conda environments created:
 unique_reads is used for 02_trim_fastqc.sh to 16_cen_peaks.sh
