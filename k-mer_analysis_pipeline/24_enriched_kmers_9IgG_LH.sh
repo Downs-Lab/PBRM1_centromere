@@ -27,4 +27,4 @@ Sample_H3_count=$(cat kmer_centromere/kmer_dbs/${base}_H_r3_readlens.csv)
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
-srun Rscript 24_enriched_kmers_9IgG_LH.R $base $Sample_L1_count $Sample_H1_count $Sample_L2_count $Sample_H2_count $Sample_L3_count $Sample_H3_count
+srun k-mer_analysis_pipeline/Rscript 24_enriched_kmers_9IgG_LH.R $base $Sample_L1_count $Sample_H1_count $Sample_L2_count $Sample_H2_count $Sample_L3_count $Sample_H3_count
