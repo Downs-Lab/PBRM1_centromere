@@ -6,8 +6,8 @@
 #SBATCH --mem-per-cpu=8000
 
 # array currently set for data from publication
-# e.g. #SBATCH --array=0-8 for 9 samples (WT_PBRM1, WT_SMARCA4, PBRM1KO_SMARCA4, WT_CENPB, SMARCA4KO_SMARCA4, WT_H3K9me2, WT_H3K9me3,
-#PBRM1KO_H3K9me2, PBRM1KO_H3K9me3)
+# e.g. #SBATCH --array=0-8 for 9 samples (WT_PBRM1, WT_SMARCA4, PBRM1KO_SMARCA4, WT_CENPB, SMARCA4KO_SMARCA4, 
+#WT_H3K9me2, WT_H3K9me3, PBRM1KO_H3K9me2, PBRM1KO_H3K9me3)
 
 
 # requires approx 384G (e.g. 48 threads and 8G) and 12 hours running time
@@ -27,4 +27,5 @@ Sample_H3_count=$(cat kmer_centromere/kmer_dbs/${base}_H_r3_readlens.csv)
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
-srun k-mer_analysis_pipeline/Rscript 24_enriched_kmers_9IgG_LH.R $base $Sample_L1_count $Sample_H1_count $Sample_L2_count $Sample_H2_count $Sample_L3_count $Sample_H3_count
+srun Rscript k-mer_analysis_pipeline/24_enriched_kmers_9IgG_LH.R $base $Sample_L1_count $Sample_H1_count \
+$Sample_L2_count $Sample_H2_count $Sample_L3_count $Sample_H3_count
