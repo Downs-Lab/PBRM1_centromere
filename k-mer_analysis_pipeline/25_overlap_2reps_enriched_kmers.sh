@@ -23,4 +23,4 @@ sed '1d' kmer_centromere/enriched_kmers/${base}_3_vs_Control_fc2.txt > kmer_cent
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
-srun Rscript 25_overlap_2reps_enriched_kmers.R $base
+srun k-mer_analysis_pipeline/Rscript 25_overlap_2reps_enriched_kmers.R $base
