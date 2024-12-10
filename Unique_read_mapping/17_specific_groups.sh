@@ -49,9 +49,9 @@ bedtools intersect -a unique_reads/MACS2_peaks/overlap_2/CEN_peaks/PKO_not_SMARC
 
 cat unique_reads/MACS2_peaks/overlap_2/CEN_peaks/WT_PBRM1_not_SMARCA4_not_PKO_cen_peaks_merge.bed \
  unique_reads/MACS2_peaks/overlap_2/CEN_peaks/WT_PBRM1_and_SMARCA4_not_PKO_cen_peaks_merge.bed | sort -k1,1 -k2,2n | \
- mergeBed -i stdin > unique_reads/MACS2_peaks/overlap_2/CEN_peaks/PBRM1_dependent_cen_peaks_merge.bed
+ mergeBed -i stdin > unique_reads/MACS2_peaks/overlap_2/CEN_peaks/PBRM1_specific_cen_peaks_merge.bed
 
 cat unique_reads/MACS2_peaks/overlap_2/CEN_peaks/WT_PBRM1_and_SMARCA4_and_PKO_cen_peaks_merge.bed \
  unique_reads/MACS2_peaks/overlap_2/CEN_peaks/WT_PBRM1_and_PKO_not_SMARCA4_cen_peaks_merge.bed | sort -k1,1 -k2,2n | \
- mergeBed -i stdin > unique_reads/MACS2_peaks/overlap_2/CEN_peaks/PBRM1_independent_cen_peaks_merge.bed
+ mergeBed -i stdin > unique_reads/MACS2_peaks/overlap_2/CEN_peaks/PBRM1_non-specific_cen_peaks_merge.bed
 
