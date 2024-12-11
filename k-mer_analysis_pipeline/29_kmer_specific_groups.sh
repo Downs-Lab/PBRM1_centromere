@@ -4,8 +4,6 @@
 #SBATCH --partition=compute
 #SBATCH --mem-per-cpu=8000
 
-# array currently set for data from publication
-
 # This script is just for reproducing the specific groups of k-mers from the publication (requires all data from GEO)
 
 cd ..
