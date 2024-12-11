@@ -19,5 +19,5 @@ mkdir -p unique_reads/ChIPseeker
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
-srun Rscript Additional_scripts/33_TxDb.R
+srun Rscript Additional_scripts/33_TxDb_for_ChIPseeker.R
 
