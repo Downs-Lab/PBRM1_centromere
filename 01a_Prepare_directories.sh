@@ -21,7 +21,6 @@ mkdir -p fastq
 
 # Download fq.gz files from GEO accession GSE235294 and add to this folder, with same naming system as metadata
 # e.g. WT_SMARCA4_L_r1_1.fq.gz
-# or for now download demo data (randomised fq.gz files with same naming system as data on GEO)
 
 # prepare other folders necessary for downstream analysis
 
