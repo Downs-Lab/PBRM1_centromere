@@ -76,6 +76,10 @@ For kmer analysis:
 Output files generated from steps up to 12_index_stats.sh are required
 Follow 18_Filter_out_spike_in.sh to 29_kmer_specific_groups.sh (within 'k-mer_analysis_pipeline' folder)
 
+Additional script for specific figures in paper is also included in Additional_scripts folder, including specific examples of script for ChIP-seq datasets analysed in that publication that differs from that used for the CUT&RUN (with associated 01a_ChIP-seq_Prepare_directories.sh file)
+
+Also additional versions of the 24_enriched_kmers script - either for the 2 reps of histone PTM ChIP-seq, or for 3 reps (with or without low and high salt fractions) are in the k-mer_analysis_pipelien folder
+
 ## Citation
 
 Please cite the following if you find this analysis pipeline useful:
