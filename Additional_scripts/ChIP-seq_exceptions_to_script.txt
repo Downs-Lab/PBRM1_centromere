@@ -1,0 +1,461 @@
+
+02_trim_fastqc:
+
+# example with GSE175752 (but same for other GEO accessions)
+
+INPUT_FILES=(fastq/ChIP-seq/GSE175752/*.fq.gz)
+
+base=$(basename -s .fq.gz ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
+
+# FASTQC quality control
+
+fastqc fastq/ChIP-seq/GSE175752/${base}.fq.gz -o fastqc
+
+# trim files and get quality check output after (FASTQC)
+
+trim_galore --trim-n --fastqc_args "--outdir fastqc/ChIP-seq/GSE175752/trim" --output_dir trimmed_reads/ChIP-seq/GSE175752 \
+fastq/ChIP-seq/GSE175752/${base}.fq.gz 
+
+
+
+
+03_bowtie2:
+
+# example with GSE152681 
+
+INPUT_FILES=(trimmed_reads/ChIP-seq/GSE152681/*_trimmed.fq.gz)
+base=$(basename -s _trimmed.fq.gz ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
+
+bowtie2 -p 8 \
+-x genomes/combined_t2tsc/CHM13-T2T_yeast/combined \
+-U trimmed_reads/ChIP-seq/GSE152681/${base}_trimmed.fq.gz \
+-S sam/ChIP-seq/GSE152681/${base}_t2tsc.sam &> sam/ChIP-seq/GSE152681/${base}_t2tsc.txt \
+--local --very-sensitive-local --no-unal --no-mixed --no-discordant --dovetail --soft-clipped-unmapped-tlen \
+--non-deterministic --phred33 -I 300 -X 700
+
+# example with GSE175752 (but same for GSE71510)
+
+INPUT_FILES=(trimmed_reads/ChIP-seq/GSE175752/*_trimmed.fq.gz)
+base=$(basename -s _trimmed.fq.gz ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
+
+bowtie2 -p 8 \
+-x genomes/combined_t2tsc/CHM13-T2T_yeast/combined \
+-U trimmed_reads/ChIP-seq/GSE175752/${base}_trimmed.fq.gz \
+-S sam/ChIP-seq/GSE175752/${base}_t2tsc.sam &> sam/ChIP-seq/GSE175752/${base}_t2tsc.txt \
+--local --very-sensitive-local --no-unal --no-mixed --no-discordant --dovetail --soft-clipped-unmapped-tlen \
+--non-deterministic --phred33 -I 50 -X 1500
+
+
+
+
+04_filter_bam:
+
+# example with GSE175752 (but same for other GEO accessions)
+
+INPUT_FILES=(sam/ChIP-seq/GSE175752/*_t2tsc.sam)
+base=$(basename -s _t2tsc.sam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
+
+sambamba view --sam-input -h -t 1 -F "[NM] < 4" -f sam -o sam/ChIP-seq/GSE175752/${base}_t2tsc.NM4.sam sam/ChIP-seq/GSE175752/${base}_t2tsc.sam
+
+samtools sort --output-fmt BAM -o bam/ChIP-seq/GSE175752/${base}.t2tsc.NM4.sorted.final.bam sam/ChIP-seq/GSE175752/${base}_t2tsc.NM4.sam
+
+samtools index bam/ChIP-seq/GSE175752/${base}.t2tsc.NM4.sorted.final.bam
+
+rm sam/ChIP-seq/GSE175752/${base}_t2tsc.NM4.sam
+
+
+
+05_split_bam; 06_merge_split_bams: no exceptions (except folder e.g. bam/ChIP-seq/GSE175752/ not bam/)
+
+
+Did not run 07_mark_remove_dups to 11_replace_merge_LHsalt_rmdup
+
+
+12_index_stats: no exceptions (except folder e.g. bam/ChIP-seq/GSE175752/merged_bam/ not bam/merged_bam/)
+
+13_filter_unique_reads: no exceptions (except folder e.g. bam/ChIP-seq/GSE175752/merged_bam/ and unique_reads/ChIP-seq/GSE175752 not bam/merged_bam/ and unique_reads/). 
+
+14_MACS2_peak_calling: no exceptions (except folder e.g. unique_reads/ChIP-seq/GSE175752/MACS2_peaks not unique_reads/MACS2_peaks, and input not IgG as control)
+
+
+
+15_overlap_2_peaks:
+
+# Did not run for GSE152681 and GSE71510
+
+INPUT_FILES=(unique_reads/ChIP-seq/GSE175752/MACS2_peaks/*_vs_input_r1_peaks.broadPeak)
+
+base=$(basename -s _vs_input_r1_peaks.broadPeak ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
+
+# find regions of peaks that intersect in multiple reps
+
+bedtools multiinter -i unique_reads/ChIP-seq/GSE175752/MACS2_peaks/${base}_vs_input_r1_peaks.broadPeak \
+ unique_reads/ChIP-seq/GSE175752/MACS2_peaks/${base}_vs_input_r2_peaks.broadPeak \
+ > unique_reads/ChIP-seq/GSE175752/MACS2_peaks/${base}_vs_input_multi_peaks.broadPeak
+
+# extract regions that intersect in at least 2 reps
+
+awk '$5 == "1,2"' \
+ unique_reads/ChIP-seq/GSE175752/MACS2_peaks/${base}_vs_input_multi_peaks.broadPeak \
+ > unique_reads/ChIP-seq/GSE175752/MACS2_peaks/${base}_vs_input_overlap_peaks.broadPeak
+
+# extract first 3 columns of peak file
+
+awk 'BEGIN{OFS="\t"} {print $1,$2,$3}' unique_reads/ChIP-seq/GSE175752/MACS2_peaks/${base}_vs_input_overlap_peaks.broadPeak \
+ > unique_reads/ChIP-seq/GSE175752/MACS2_peaks/${base}_vs_input_overlap_peaks.bed
+
+# merge adjacent peaks that don't have a gap between (0bp distance)
+
+bedtools merge -i unique_reads/MACS2_peaks/${base}_vs_input_overlap_peaks.bed \
+ > unique_reads/ChIP-seq/GSE175752/MACS2_peaks/overlap_2/${base}_vs_input_overlap_peaks_merge.bed
+
+# count number of peaks of uniquely mapping reads in at least 2 reps across whole genome
+
+echo ${base} >> unique_reads/ChIP-seq/GSE175752/MACS2_peaks/overlap_2/genome_peaks_log.txt
+
+wc -l unique_reads/ChIP-seq/GSE175752/MACS2_peaks/overlap_2/${base}_vs_input_overlap_peaks_merge.bed \
+ >> unique_reads/ChIP-seq/GSE175752/MACS2_peaks/overlap_2/genome_peaks_log.txt
+
+
+
+
+16_cen_peaks: no exceptions (except folders are as follows:
+
+unique_reads/ChIP-seq/GSE175752/MACS2_peaks/overlap_2/CEN_peaks/
+
+unique_reads/ChIP-seq/GSE152681/MACS2_peaks/CEN_peaks/
+
+unique_reads/ChIP-seq/GSE71510/MACS2_peaks/CEN_peaks/
+
+not unique_reads/MACS2_peaks/overlap_2/CEN_peaks/)
+
+
+
+Did not run 17_specific_groups
+
+
+
+
+# For k-mer analysis pipeline, just carried out for GSE175752
+
+
+18_Filter_out_spike_in:
+
+
+INPUT_FILES=(bam/ChIP-seq/GSE175752/*.sc.NM4.sorted.final.bam)
+
+base=$(basename -s .bam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
+
+bedtools bamtofastq -i bam/ChIP-seq/GSE175752/${base}.bam -fq bam/ChIP-seq/sc_reads/${base}.fq
+
+
+# extract read IDs to text file for yeast-mapped reads
+
+grep "@" bam/ChIP-seq/sc_reads/${base}.fq | awk -v OFS='\t' '{array[$1]=1} END {for (readID in array) print readID}' > bam/ChIP-seq/sc_reads/$base.readsID.txt
+
+
+
+
+19_Filter_out_spike_in_2:
+
+
+INPUT_FILES=(bam/ChIP-seq/sc_reads/*.sc.NM4.sorted.final.readsID.txt)
+
+base=$(basename -s .sc.NM4.sorted.final.readsID.txt ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
+
+
+filterbyname.sh in=fastq/ChIP-seq/GSE175752/${base}.fq.gz out=filtered_fastq/ChIP-seq/${base}_sc_filter.fq.gz names=bam/ChIP-seq/sc_reads/${base}.sc.NM4.sorted.final.readsID.txt
+
+
+
+
+20_Filter_cen_reads:
+
+INPUT_FILES=(bam/ChIP-seq/GSE175752/*.t2t.NM4.sorted.final.bam)
+
+base=$(basename -s .t2t.NM4.sorted.final.bam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
+
+
+samtools sort -n bam/ChIP-seq/GSE175752/${base}.t2t.NM4.sorted.final.bam | bedtools bamtobed -i stdin | cut -f 1,2,3,4 > filtered_fastq/ChIP-seq/$base.bed
+
+bedtools intersect -a filtered_fastq/ChIP-seq/$base.bed -b genomes/cenSatAnnotation.bed  > filtered_fastq/ChIP-seq/$base.cen.bed
+
+awk {'print $4'} filtered_fastq/ChIP-seq/$base.cen.bed > filtered_fastq/ChIP-seq/$base.cen.txt
+
+filterbyname.sh in=fastq/ChIP-seq/GSE175752/${base}.fq.gz out=filtered_fastq/ChIP-seq/${base}_cen_filter.fq.gz names=filtered_fastq/ChIP-seq/$base.cen.txt include=t
+
+
+
+
+21_identify_kmers_all:
+
+for files in filtered_fastq/ChIP-seq/*_sc_filter.fq.gz;
+do
+
+base=$(basename -s _sc_filter.fq.gz $files)
+
+
+#rid_PCR_dups:
+
+clumpify.sh t=6 in=filtered_fastq/${base}_sc_filter.fq.gz \
+out=kmer_all/ChIP-seq/deduped/${base}.fq.gz dedupe=t subs=0 reorder=f \
+overwrite=t -Xmx6g 2>kmer_all/ChIP-seq/deduped/${base}_deduping.log
+
+#rule trim_adapters_SE:
+
+## download TruSeq3-SE.fa adapter .fa file from here - https://github.com/timflutre/trimmomatic/tree/master/adapters
+
+trimmomatic -XX:ParallelGCThreads=6 -Xmx6g SE -phred33 kmer_all/ChIP-seq/deduped/${base}.fq.gz \
+kmer_all/ChIP-seq/trim/${base}_trimmed.fq.gz \
+ILLUMINACLIP:genomes/TruSeq3-SE.fa:2:30:12 SLIDINGWINDOW:10:10 MINLEN:71
+
+
+#rule feed_kmc:
+rm -rf "kmer_all/ChIP-seq/kmer_dbs"/tmp
+mkdir -p "kmer_all/ChIP-seq/kmer_dbs"/tmp
+
+ln -s $(readlink -f kmer_all/ChIP-seq/trim/${base}_trimmed.fq.gz) kmer_all/ChIP-seq/kmer_dbs/${base}.fq.gz
+
+# rule generate_kmers ## can try various kmer lengths here:
+
+kmc -k51 -sm -t6 -ci2 -cs100000000 kmer_all/ChIP-seq/kmer_dbs/${base}.fq.gz kmer_all/ChIP-seq/kmer_dbs/51/${base}_kcounts "kmer_all/ChIP-seq/kmer_dbs"/tmp
+
+#rule compute_total_bases:
+
+zcat kmer_all/ChIP-seq/trim/${base}_trimmed.fq.gz | sed -e 's/\t/ /g' | \
+awk -F '[ ]' 'BEGIN{{OFS=" ";}}(NR%4==1){{x=$0; y=(NR+3)/4; getline; printf("%d\n",length($1));}}' | \
+awk -F '/n' '{{sum+=$1}} END {{print sum}}' > kmer_all/ChIP-seq/kmer_dbs/${base}_readlens.csv
+
+# rule dump_kmers:
+kmc_tools transform kmer_all/ChIP-seq/kmer_dbs/51/${base}_kcounts dump -s kmer_all/ChIP-seq/kmer_dbs/51/${base}_kcounts.dump.sort
+
+# rule norm_kcounts:
+
+mylen="$(cat kmer_all/ChIP-seq/kmer_dbs/${base}_readlens.csv)"
+awk -v x=$mylen '{{print$0, $2/x}}' kmer_all/ChIP-seq/kmer_dbs/51/${base}_kcounts.dump.sort > kmer_all/ChIP-seq/kmer_dbs/51/${base}_normkcounts.txt
+
+done
+
+
+
+
+
+22_identify_kmers_cen:
+
+for files in filtered_fastq/*_cen_filter.fq.gz;
+do
+
+base=$(basename -s _cen_filter.fq.gz $files)
+
+
+#rid_PCR_dups:
+
+clumpify.sh t=6 in=filtered_fastq/ChIP-seq/${base}_cen_filter.fq.gz \
+out=kmer_centromere/ChIP-seq/deduped/${base}_cen_filter.fq.gz dedupe=t subs=0 \
+reorder=f overwrite=t -Xmx6g 2>kmer_centromere/ChIP-seq/deduped/${base}_deduping.log
+
+#rule trim_adapters_SE:
+
+## download TruSeq3-SE.fa adapter .fa file from here - https://github.com/timflutre/trimmomatic/tree/master/adapters 
+
+trimmomatic -XX:ParallelGCThreads=6 -Xmx6g SE -phred33 kmer_centromere/ChIP-seq/deduped/${base}_cen_filter.fq.gz \
+kmer_centromere/ChIP-seq/trim/${base}_trimmed.fq.gz \
+ILLUMINACLIP:genomes/TruSeq3-SE.fa:2:30:12 \
+SLIDINGWINDOW:10:10 MINLEN:71
+
+#rule feed_kmc:
+
+rm -rf "kmer_centromere/ChIP-seq/kmer_dbs"/tmp
+mkdir -p "kmer_centromere/ChIP-seq/kmer_dbs"/tmp
+ln -s $(readlink -f kmer_centromere/ChIP-seq/trim/${base}_trimmed.fq.gz) kmer_centromere/ChIP-seq/kmer_dbs/${base}.fq.gz
+
+# rule generate_kmers ## can try various kmer lengths here:
+
+kmc -k51 -sm -t6 -ci2 -cs100000000 kmer_centromere/ChIP-seq/kmer_dbs/${base}.fq.gz kmer_centromere/ChIP-seq/kmer_dbs/51/${base}_kcounts "kmer_centromere/ChIP-seq/kmer_dbs"/tmp
+
+#rule compute_total_bases:
+
+zcat kmer_centromere/ChIP-seq/trim/${base}_trimmed.fq.gz | sed -e 's/\t/ /g' | \
+awk -F '[ ]' 'BEGIN{{OFS=" ";}}(NR%4==1){{x=$0; y=(NR+3)/4; getline; printf("%d\n",length($1));}}' | \
+awk -F '/n' '{{sum+=$1}} END {{print sum}}' > kmer_centromere/ChIP-seq/kmer_dbs/${base}_readlens.csv
+
+# rule dump_kmers:
+
+kmc_tools transform kmer_centromere/ChIP-seq/kmer_dbs/51/${base}_kcounts dump -s kmer_centromere/ChIP-seq/kmer_dbs/51/${base}_kcounts.dump.sort
+
+# rule norm_kcounts (in my case I normalised centromere kmers against kmers from fq.gz files with spike in reads removed):
+
+mylen="$(cat kmer_all/ChIP-seq/kmer_dbs/${base}_readlens.csv)"
+awk -v x=$mylen '{{print$0, $2/x}}' kmer_centromere/ChIP-seq/kmer_dbs/51/${base}_kcounts.dump.sort > kmer_centromere/ChIP-seq/kmer_dbs/51/${base}_normkcounts.txt
+
+done
+
+
+
+
+
+23_mv_control_kmers:
+
+
+mv kmer_centromere/ChIP-seq/kmer_dbs/51/input*_normkcounts.txt kmer_centromere/ChIP-seq/kmer_dbs/51/control
+
+
+
+
+Use 24_enriched_kmers_histone_PTM_2input (.R and .sh) rather than 24_enriched_kmers_9IgG_LH
+
+
+
+
+25_overlap_2reps_enriched_kmers.sh:
+
+INPUT_FILES=(kmer_centromere/ChIP-seq/enriched_kmers/*_1_vs_Control_fc2.txt)
+
+base=$(basename -s _1_vs_Control_fc2.txt ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
+
+sed '1d' kmer_centromere/ChIP-seq/enriched_kmers/${base}_1_vs_input_fc2.txt > kmer_centromere/ChIP-seq/enriched_kmers/${base}_1_vs_input_fc2.fa.txt
+sed '1d' kmer_centromere/ChIP-seq/enriched_kmers/${base}_2_vs_input_fc2.txt > kmer_centromere/ChIP-seq/enriched_kmers/${base}_2_vs_input_fc2.fa.txt
+
+
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+
+srun Rscript k-mer_analysis_pipeline/25_overlap_2reps_enriched_kmers.R $base
+
+
+
+
+
+25_overlap_2reps_enriched_kmers.R:
+
+
+setwd(system("pwd", intern = T) )
+
+install.packages("ggVennDiagram",version='1.5.2',repos = "http://cran.us.r-project.org")
+install.packages("RVenn",version='1.1.0',repos = "http://cran.us.r-project.org")
+
+
+library(ggVennDiagram)
+library(ggplot2)
+library(RVenn)
+library(R.utils)
+
+args <- commandArgs(TRUE)
+
+
+Sample_name = args[1]
+
+
+Sample_1_2 <- read.delim(file =(paste("kmer_centromere/ChIP-seq/enriched_kmers/",Sample_name,"_1_vs_input_fc2.fa.txt", 
+                                          sep="")), header = F, sep = "")
+Sample_1_2 <- Sample_1_2[,1]
+
+Sample_2_2 <- read.delim(file =(paste("kmer_centromere/ChIP-seq/enriched_kmers/",Sample_name,"_2_vs_input_fc2.fa.txt", 
+                                      sep="")), header = F, sep = "")
+Sample_2_2 <- Sample_2_2[,1]
+
+
+Sample_1_name <- (paste(Sample_name,"_1", sep=""))
+Sample_2_name <- (paste(Sample_name,"_2", sep=""))
+
+venn_Sample_list <- list(Sample_1_2 = Sample_1_2, Sample_2_2 = Sample_2_2)
+
+names(venn_Sample_list) <- c(Sample_1_name, Sample_2_name)
+
+pdf(file=paste("kmer_centromere/ChIP-seq/enriched_kmers/overlap_2/",Sample_name,"_reps_venn.pdf", sep=""), width=5, height=5)
+ggVennDiagram(venn_Sample_list, label = "count", label_alpha = 0) + scale_fill_gradient(low="white",high = "red") + 
+  scale_color_manual(values = c(Sample_1_name = "black", Sample_2_name = "black"))
+dev.off()
+
+
+# extract out enriched kmers that are found in at least 2 reps
+
+
+Sample_2_overlap <- overlap(Venn(venn_Sample_list), slice = c(Sample_1_name, Sample_2_name))
+Sample_2_overlap <- paste(unique(Sample_2_overlap))
+write.table(as.data.frame(Sample_2_overlap), file=paste("kmer_centromere/ChIP-seq/enriched_kmers/overlap_2/",Sample_name,"_overlap_2.txt", sep=""), sep=" ", row.names=F, col.names = F, quote = F)
+
+
+
+
+26_enrich_kmer_fa: no exceptions except the folder is kmer_centromere/ChIP-seq/enriched_kmers/overlap_2/ not kmer_centromere/enriched_kmers/overlap_2/)
+
+
+
+
+27_map_kmers: no exceptions except the folders e.g. kmer_centromere/ChIP-seq/enriched_kmers/overlap_2/bam/ not kmer_centromere/enriched_kmers/overlap_2/bam/
+
+
+
+28_cen_pivot: no exceptions except the folders e.g. kmer_centromere/ChIP-seq/enriched_kmers/overlap_2/intersect_CEN/ and kmer_centromere/ChIP-seq/enriched_kmers/overlap_2/pivot_CEN not kmer_centromere/enriched_kmers/overlap_2/intersect_CEN/ and kmer_centromere/enriched_kmers/overlap_2/pivot_CEN
+
+
+
+Did not run 29_kmer_specific_groups
+
+
+
+
+
+30_unique_bigwigs:
+
+# when there are multiple options separated by "OR" - these are the script for the respective GEO datasets
+
+INPUT_FILES=(unique_reads/ChIP-seq/GSE175752/*.bam) "OR" INPUT_FILES=(unique_reads/ChIP-seq/GSE71510/*.bam) "OR" INPUT_FILES=(unique_reads/ChIP-seq/GSE152681/*.bam)
+
+base=$(basename -s .bam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
+
+# choose scaling_reads value so that your final scaling factors are <=1
+
+scaling_reads=100000000 "OR" scaling_reads=10000000 "OR" (scaling_reads = 50000000 #for 786O; scaling_reads = 10000000 #for A498; scaling_reads = 25000000 #for HK2)
+
+# extract number of reads from bam stats file (before filtering for unique reads)
+
+fragments=$(grep '1st fragments:' bam/ChIP-seq/GSE175752/merged_bam/${base}.t2t.NM4.sorted.final.bam.SN.stats.txt | tr -d "1st fragments: ")
+"OR" fragments=$(grep '1st fragments:' bam/ChIP-seq/GSE71510/merged_bam/${base}.t2t.NM4.sorted.final.bam.SN.stats.txt | tr -d "1st fragments: ")
+"OR" fragments=$(grep '1st fragments:' bam/ChIP-seq/GSE152681/merged_bam/${base}.t2t.NM4.sorted.final.bam.SN.stats.txt | tr -d "1st fragments: ")
+
+#remove space
+
+fragments2="${fragments// /}"
+
+# set scale factor
+
+scalefactor=$(bc <<<"scale=8; $scaling_reads / $fragments2")
+
+echo "number of fragments is" $fragments2
+
+echo "scale factor is" $scalefactor
+
+mkdir -p unique_reads/ChIP-seq/GSE175752/bigwig "OR" unique_reads/ChIP-seq/GSE71510/bigwig "OR" unique_reads/ChIP-seq/GSE152681/bigwig
+
+# index unique bam files
+
+samtools index unique_reads/ChIP-seq/GSE175752/${base}.bam "OR" unique_reads/ChIP-seq/GSE71510/${base}.bam "OR" unique_reads/ChIP-seq/GSE152681/${base}.bam
+
+# create bigwig files using scale factor calculated above
+
+bamCoverage -p 12 --extendReads 250 --scaleFactor $scalefactor --binSize 10 \
+-b unique_reads/ChIP-seq/GSE175752/${base}.bam -o unique_reads/ChIP-seq/GSE175752/bigwig/${base}.bs10.bw
+
+"OR" bamCoverage -p 12 --extendReads 180 --scaleFactor $scalefactor --binSize 10 \
+-b unique_reads/ChIP-seq/GSE71510/${base}.bam -o unique_reads/ChIP-seq/GSE71510/bigwig/${base}.bs10.bw
+
+"OR" bamCoverage -p 12 --extendReads 500 --scaleFactor $scalefactor --binSize 10 \
+-b unique_reads/ChIP-seq/GSE152681/${base}.bam -o unique_reads/ChIP-seq/GSE152681/bigwig/${base}.bs10.bw
+
+
+
+
+Did not run 31_intervene_venn, 32_custom_venn, 33_TxDb_for_ChIPseeker, 34_ChIPseeker
+
+
+
+Applicable ChIP-seq script is already included in script for 35_Enriched_heatmaps (did not run 35b_Enriched_heatmaps)
+
+
+
+Did not run 36_k-mer_bigwigs, 37_k-mer_venns, 38_MEME_SEA-motifs
+
+
+
+Applicable ChIP-seq script is already included in script for 39_reldist_k-mers
