@@ -30,5 +30,8 @@ sea --p unique_reads/MACS2_peaks/overlap_2/CEN_peaks/WT_CENPB_vs_IgG_overlap_cen
 # k-mers
 
 sea --p kmer_centromere/enriched_kmers/overlap_2/WT_CENPB_overlap_2.fa \
- --m motif_databases/HOCOMOCO/H12CORE_meme_format.meme --o MEME_SEA_motifsWT_CENPB_k-mers_MEME_HUMAN_H12core_full_shuffled
+ --m motif_databases/HOCOMOCO/H12CORE_meme_format.meme --o MEME_SEA_motifs/WT_CENPB_k-mers_MEME_HUMAN_H12core_full_shuffled
 
+# to get CENPB motif image
+
+meme2images motif_databases/HOCOMOCO/H12CORE_meme_format.meme meme_motif_images -motif MEME_SEA_motifs/CENPB.H12CORE.0.S.B
