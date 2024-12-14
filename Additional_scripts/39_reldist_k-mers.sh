@@ -29,38 +29,38 @@ bedtools bamtobed -i kmer_centromere/enriched_kmers/overlap_2/KO_specific_kmers_
 
 bedtools reldist -a kmer_centromere/enriched_kmers/overlap_2/PBRM1_specific_kmers_fc2.bed \
  -b kmer_centromere/ChIP_seq/enriched_kmers/overlap_2/kmers_H3K4me3_fc2.bed \
- > PBRM1_specific_reldist_kmers_H3K4me3_summary.txt
+ > kmer_centromere/enriched_kmers/overlap_2/reldist/PBRM1_specific_reldist_kmers_H3K4me3_summary.txt
 
 bedtools reldist -a kmer_centromere/enriched_kmers/overlap_2/PBRM1_non-specific_kmers_fc2.bed \
  -b kmer_centromere/ChIP_seq/enriched_kmers/overlap_2/kmers_H3K4me3_fc2.bed \
- > PBRM1_non-specific_reldist_kmers_H3K4me3_summary.txt
+ > kmer_centromere/enriched_kmers/overlap_2/reldist/PBRM1_non-specific_reldist_kmers_H3K4me3_summary.txt
 
 bedtools reldist -a kmer_centromere/enriched_kmers/overlap_2/KO_specific_kmers_fc2.bed \
  -b kmer_centromere/ChIP_seq/enriched_kmers/overlap_2/kmers_H3K4me3_fc2.bed \
- > KO_specific_reldist_kmers_H3K4me3_summary.txt
+ > kmer_centromere/enriched_kmers/overlap_2/reldist/KO_specific_reldist_kmers_H3K4me3_summary.txt
 
 
 bedtools reldist -a kmer_centromere/enriched_kmers/overlap_2/PBRM1_specific_kmers_fc2.bed \
  -b kmer_centromere/ChIP_seq/enriched_kmers/overlap_2/kmers_H3K9me3_fc2.bed \
- > PBRM1_specific_reldist_kmers_H3K9me3_summary.txt
+ > kmer_centromere/enriched_kmers/overlap_2/reldist/PBRM1_specific_reldist_kmers_H3K9me3_summary.txt
 
 bedtools reldist -a kmer_centromere/enriched_kmers/overlap_2/PBRM1_non-specific_kmers_fc2.bed \
  -b kmer_centromere/ChIP_seq/enriched_kmers/overlap_2/kmers_H3K9me3_fc2.bed \
- > PBRM1_non-specific_reldist_kmers_H3K9me3_summary.txt
+ > kmer_centromere/enriched_kmers/overlap_2/reldist/PBRM1_non-specific_reldist_kmers_H3K9me3_summary.txt
 
 bedtools reldist -a kmer_centromere/enriched_kmers/overlap_2/KO_specific_kmers_fc2.bed \
  -b kmer_centromere/ChIP_seq/enriched_kmers/overlap_2/kmers_H3K9me3_fc2.bed \
- > KO_specific_reldist_kmers_H3K9me3_summary.txt
+ > kmer_centromere/enriched_kmers/overlap_2/reldist/KO_specific_reldist_kmers_H3K9me3_summary.txt
 
 
 bedtools reldist -a kmer_centromere/enriched_kmers/overlap_2/PBRM1_specific_kmers_fc2.bed \
  -b kmer_centromere/ChIP_seq/enriched_kmers/overlap_2/kmers_H3K9ac_fc2.bed \
- > PBRM1_specific_reldist_kmers_H3K9ac_summary.txt
+ > kmer_centromere/enriched_kmers/overlap_2/reldist/PBRM1_specific_reldist_kmers_H3K9ac_summary.txt
 
 bedtools reldist -a kmer_centromere/enriched_kmers/overlap_2/PBRM1_non-specific_kmers_fc2.bed \
  -b kmer_centromere/ChIP_seq/enriched_kmers/overlap_2/kmers_H3K9ac_fc2.bed \
- > PBRM1_non-specific_reldist_kmers_H3K9ac_summary.txt
+ > kmer_centromere/enriched_kmers/overlap_2/reldist/PBRM1_non-specific_reldist_kmers_H3K9ac_summary.txt
 
 bedtools reldist -a kmer_centromere/enriched_kmers/overlap_2/KO_specific_kmers_fc2.bed \
  -b kmer_centromere/ChIP_seq/enriched_kmers/overlap_2/kmers_H3K9ac_fc2.bed \
- > KO_specific_reldist_kmers_H3K9ac_summary.txt
+ > kmer_centromere/enriched_kmers/overlap_2/reldist/KO_specific_reldist_kmers_H3K9ac_summary.txt
