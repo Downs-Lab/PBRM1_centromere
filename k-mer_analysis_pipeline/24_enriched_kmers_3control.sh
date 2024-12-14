@@ -28,6 +28,6 @@ Control_3_count=$(cat kmer_centromere/kmer_dbs/${base2}_r3_readlens.csv)
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
-srun Rscript 24_enriched_kmers_3control.R $base $Sample_1_count $Sample_2_count $Sample_3_count \
+srun Rscript k-mer_analysis_pipeline/24_enriched_kmers_3control.R $base $Sample_1_count $Sample_2_count $Sample_3_count \
  $Control_1_count $Control_2_count $Control_3_count $base2
 
