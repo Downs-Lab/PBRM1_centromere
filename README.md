@@ -1,6 +1,8 @@
 
 # PBRM1 directs PBAF to pericentromeres and protects centromere integrity
 
+[![DOI](https://zenodo.org/badge/887405956.svg)](https://doi.org/10.5281/zenodo.14604005)
+
 ### Karen A. Lane, Alison Harrod, Lillian Wu, Theodoros I. Roumeliotis, Hugang Feng, Shane Foo, Katheryn A. G. Begg, Federica Schiavoni, Frank T. Zenke, Alan A. Melcher, Jyoti S. Choudhary, Jessica A. Downs
 ### bioRxiv 2024.06.29.601326; doi: https://doi.org/10.1101/2024.06.29.601326
 
