@@ -23,17 +23,13 @@ scaling_reads=10000000
 
 # extract number of reads from bam stats file (before filtering for unique reads)
 
-fragments=$(grep '1st fragments:' bam/merged_bam/${base}.t2t.NM4.sorted.final.bam.SN.stats.txt | tr -d "1st fragments: ")
-
-#remove space
-
-fragments2="${fragments// /}"
+fragments=$(grep '1st fragments:' bam/merged_bam/${base}.t2t.NM4.sorted.final.bam.SN.stats.txt | cut -c 16-)
 
 # set scale factor
 
-scalefactor=$(bc <<<"scale=8; $scaling_reads / $fragments2")
+scalefactor=$(bc <<<"scale=8; $scaling_reads / $fragments")
 
-echo "number of fragments is" $fragments2
+echo "number of fragments is" $fragments
 
 echo "scale factor is" $scalefactor
 
