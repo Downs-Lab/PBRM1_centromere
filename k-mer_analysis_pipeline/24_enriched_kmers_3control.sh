@@ -9,7 +9,7 @@
 
 cd ..
 
-INPUT_FILES=(kmer_centromere/kmer_dbs/51/*_H_r1_normkcounts.txt)
+INPUT_FILES=(kmer_centromere/kmer_dbs/51/*_r1_normkcounts.txt)
 
 base=$(basename -s _H_r1_normkcounts.txt ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
 
