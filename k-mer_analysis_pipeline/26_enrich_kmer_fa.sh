@@ -17,7 +17,9 @@ INPUT_FILES=(kmer_centromere/enriched_kmers/overlap_2/*_overlap_2.txt)
 
 base=$(basename -s _overlap_2.txt ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
 
-sed '1d' kmer_centromere/enriched_kmers/overlap_2/${base}_overlap_2.txt > kmer_centromere/enriched_kmers/overlap_2/${base}_overlap_2.fa.txt
+#sed '1d' kmer_centromere/enriched_kmers/overlap_2/${base}_overlap_2.txt > kmer_centromere/enriched_kmers/overlap_2/${base}_overlap_2.fa.txt
+
+cp kmer_centromere/enriched_kmers/overlap_2/${base}_overlap_2.txt > kmer_centromere/enriched_kmers/overlap_2/${base}_overlap_2.fa.txt
 
 awk -F '[ ]' 'BEGIN{{OFS="\n"}}{{n=NR; x=">"n; print x, $1}}' kmer_centromere/enriched_kmers/overlap_2/${base}_overlap_2.fa.txt \
 > kmer_centromere/enriched_kmers/overlap_2/${base}_overlap_2.fa
