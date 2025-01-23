@@ -13,24 +13,24 @@ INPUT_FILES=(kmer_centromere/kmer_dbs/51/*_H_r1_normkcounts.txt)
 
 base=$(basename -s _H_r1_normkcounts.txt ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
 
-Sample_L1_count=$(cat kmer_centromere/kmer_dbs/${base}_L_r1_readlens.csv)
-Sample_H1_count=$(cat kmer_centromere/kmer_dbs/${base}_H_r1_readlens.csv)
-Sample_L2_count=$(cat kmer_centromere/kmer_dbs/${base}_L_r2_readlens.csv)
-Sample_H2_count=$(cat kmer_centromere/kmer_dbs/${base}_H_r2_readlens.csv)
-Sample_L3_count=$(cat kmer_centromere/kmer_dbs/${base}_L_r3_readlens.csv)
-Sample_H3_count=$(cat kmer_centromere/kmer_dbs/${base}_H_r3_readlens.csv)
+Sample_L1_count=$(cat kmer_all/kmer_dbs/${base}_L_r1_readlens.csv)
+Sample_H1_count=$(cat kmer_all/kmer_dbs/${base}_H_r1_readlens.csv)
+Sample_L2_count=$(cat kmer_all/kmer_dbs/${base}_L_r2_readlens.csv)
+Sample_H2_count=$(cat kmer_all/kmer_dbs/${base}_H_r2_readlens.csv)
+Sample_L3_count=$(cat kmer_all/kmer_dbs/${base}_L_r3_readlens.csv)
+Sample_H3_count=$(cat kmer_all/kmer_dbs/${base}_H_r3_readlens.csv)
 
 
 # Set base2 to the name of your control sample
 
 base2="WT_IgG"
 
-Control_L1_count=$(cat kmer_centromere/kmer_dbs/${base2}_L_r1_readlens.csv)
-Control_H1_count=$(cat kmer_centromere/kmer_dbs/${base2}_H_r1_readlens.csv)
-Control_L2_count=$(cat kmer_centromere/kmer_dbs/${base2}_L_r2_readlens.csv)
-Control_H2_count=$(cat kmer_centromere/kmer_dbs/${base2}_H_r2_readlens.csv)
-Control_L3_count=$(cat kmer_centromere/kmer_dbs/${base2}_L_r3_readlens.csv)
-Control_H3_count=$(cat kmer_centromere/kmer_dbs/${base2}_H_r3_readlens.csv)
+Control_L1_count=$(cat kmer_all/kmer_dbs/${base2}_L_r1_readlens.csv)
+Control_H1_count=$(cat kmer_all/kmer_dbs/${base2}_H_r1_readlens.csv)
+Control_L2_count=$(cat kmer_all/kmer_dbs/${base2}_L_r2_readlens.csv)
+Control_H2_count=$(cat kmer_all/kmer_dbs/${base2}_H_r2_readlens.csv)
+Control_L3_count=$(cat kmer_all/kmer_dbs/${base2}_L_r3_readlens.csv)
+Control_H3_count=$(cat kmer_all/kmer_dbs/${base2}_H_r3_readlens.csv)
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
