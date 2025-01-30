@@ -17,9 +17,7 @@ INPUT_FILES=(kmer_centromere/enriched_kmers/overlap_2/bam/*.bam)
 
 base=$(basename -s .bam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
 
-mkdir -p unique_reads/bigwig
-
-# index unique bam files
+# index bam files
 
 samtools index kmer_centromere/enriched_kmers/overlap_2/bam/${base}.bam
 
