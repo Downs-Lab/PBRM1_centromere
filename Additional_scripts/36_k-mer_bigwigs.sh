@@ -21,7 +21,7 @@ base=$(basename -s .bam ${INPUT_FILES[$SLURM_ARRAY_TASK_ID]})
 
 samtools index kmer_centromere/enriched_kmers/overlap_2/bam/${base}.bam
 
-# create bigwig files using scale factor calculated above
+# create bigwig files 
 
 bamCoverage -p 6 --smoothLength 1 --binSize 1 --scaleFactor 1 --outFileFormat bigwig \
 -b kmer_centromere/enriched_kmers/overlap_2/bam/${base}.bam -o kmer_centromere/enriched_kmers/overlap_2/bigwig/${base}.bs10.bw
