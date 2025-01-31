@@ -36,10 +36,10 @@ with following package versions: trim-galore=0.6.6 bowtie2=2.4.2 sambamba=0.7.1 
 with following package versions: Bbmap=38.87 bedtools=2.29.2 SAMtools=1.11 bowtie2=2.2.5 kmc=3.2.1 pear=0.9.6 python=3.6.13 trimmomatic=0.39 seqkit=2.5.1 datamash=1.1.0
 
 #mamba create --name enriched_kmers
-with following package versions: r-base= 4.2.3  r-dplyr=1.1.1 r-tibble= 3.2.0 python=3.11.0 r-r.utils=2.12.3 r-ggplot2=3.5.1
+with following package versions: r-base=4.2.3  r-dplyr=1.1.1 r-tibble= 3.2.0 python=3.11.0 r-r.utils=2.12.3 r-ggplot2=3.4.1 r-magrittr=2.0.3 r-rlang=1.1.0 r-forcats=1.0.0 r-systemfonts=1.0.4 r-vctrs=0.6.0 r-rcpp=1.0.10 r-scales=1.2.1 r-tidyselect=1.2.0 r-lifecycle=1.0.3 r-mass=7.3_58.3 r-withr=2.5.0 r-cli=3.6.0
 
 #mamba create --name kmer_analysis
-with following package versions: bowtie2=2.4.2 SAMtools=1.11 bedtools=2.29.2 datamash=1.1.0 deeptools=3.5.1
+with following package versions: bowtie2=2.4.2 SAMtools=1.11 bedtools=2.29.2 datamash=1.1.0 deeptools=3.5.1 matplotlib=3.7.3
 
 Additional_scripts folder has some specific installation requirements detailed in .sh files
 
