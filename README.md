@@ -3,8 +3,7 @@
 
 [![DOI](https://zenodo.org/badge/887405956.svg)](https://doi.org/10.5281/zenodo.14604005)
 
-### Karen A. Lane, Alison Harrod, Lillian Wu, Theodoros I. Roumeliotis, Hugang Feng, Shane Foo, Katheryn A. G. Begg, Federica Schiavoni, Frank T. Zenke, Alan A. Melcher, Jyoti S. Choudhary, Jessica A. Downs
-### bioRxiv 2024.06.29.601326; doi: https://doi.org/10.1101/2024.06.29.601326
+### Lane, K.A., Harrod, A., Wu, L. et al. PBRM1 directs PBAF to pericentromeres and protects centromere integrity. Nat Commun 16, 1980 (2025). https://doi.org/10.1038/s41467-025-57277-9
 
 Custom pipeline for analysing mapping data (e.g. CUT&RUN (.salt) or ChIP-seq) at centromeric and pericentromeric sequences - extracting uniquely mapping reads and enriched k-mer analysis 
 (based on pipeline used in Smith et al. 2021, Genome research. doi:10.1101/gr.267781.120)
@@ -86,6 +85,4 @@ Also additional versions of the 24_enriched_kmers script - either for the 2 reps
 
 Please cite the following if you find this analysis pipeline useful:
 
-PBRM1 directs PBAF to pericentromeres and protects centromere integrity
-Karen A. Lane, Alison Harrod, Lillian Wu, Theodoros I. Roumeliotis, Hugang Feng, Shane Foo, Katheryn A. G. Begg, Federica Schiavoni, Frank T. Zenke, Alan A. Melcher, Jyoti S. Choudhary, Jessica A. Downs
-bioRxiv 2024.06.29.601326; doi: https://doi.org/10.1101/2024.06.29.601326
+Lane, K.A., Harrod, A., Wu, L. et al. PBRM1 directs PBAF to pericentromeres and protects centromere integrity. Nat Commun 16, 1980 (2025). https://doi.org/10.1038/s41467-025-57277-9
